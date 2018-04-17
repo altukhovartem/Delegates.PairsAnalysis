@@ -10,12 +10,26 @@ namespace Delegates.PairsAnalysis
     {
         public static int FindMaxPeriodIndex(params DateTime[] data)
         {
-            return new MaxPauseFinder().Analyze(data);
+			data.MaxIndex();
+			return new MaxPauseFinder().Analyze(data);
         }
 
         public static double FindAverageRelativeDifference(params double[] data)
         {
-            return new AverageDifferenceFinder().Analyze(data);
+			data.Pairs();
+
+			return new AverageDifferenceFinder().Analyze(data);
         }
-    }
+
+		public static int MaxIndex<T>(this IEnumerable<T> inputCollection)
+		{
+			throw new NotImplementedException();
+		}
+
+		public static Tuple<T,T> Pairs<T>(this IEnumerable<T> inputCollection)
+		{
+			throw new NotImplementedException();
+		}
+	}
+
 }
