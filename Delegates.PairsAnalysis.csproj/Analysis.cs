@@ -10,20 +10,25 @@ namespace Delegates.PairsAnalysis
     {
         public static int FindMaxPeriodIndex(params DateTime[] data)
         {
-			data.MaxIndex();
+			
 			return new MaxPauseFinder().Analyze(data);
         }
 
         public static double FindAverageRelativeDifference(params double[] data)
         {
-			data.Pairs();
-
+			//data.Pairs();
 			return new AverageDifferenceFinder().Analyze(data);
         }
 
-		public static int MaxIndex<T>(this IEnumerable<T> inputCollection)
+		public static Tout MaxIndex<Tin, TInter, Tout>(this IEnumerable<Tin> inputCollection, Func<Tin,Tin,TInter> process, Func<List<TInter>, Tout> aggregate)
 		{
-			throw new NotImplementedException();
+
+			if (inputCollection.Count() < 2)
+				throw new ArgumentException();
+			var temp = new List<TInter>();
+			for (int i = 0; i < inputCollection.Count() - 1; i++)
+				temp.Add(process(inputCollection.ElementAt(i), inputCollection.ElementAt(i)));
+			return aggregate(temp);
 		}
 
 		public static Tuple<T,T> Pairs<T>(this IEnumerable<T> inputCollection)
