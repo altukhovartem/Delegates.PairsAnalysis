@@ -10,8 +10,8 @@ namespace Delegates.PairsAnalysis
     {
         public static int FindMaxPeriodIndex(params DateTime[] data)
         {
-			
-			return new MaxPauseFinder().Analyze(data);
+			return data.MaxIndex();
+			//return new MaxPauseFinder().Analyze(data);
         }
 
         public static double FindAverageRelativeDifference(params double[] data)
@@ -20,21 +20,42 @@ namespace Delegates.PairsAnalysis
 			return new AverageDifferenceFinder().Analyze(data);
         }
 
-		public static Tout MaxIndex<Tin, TInter, Tout>(this IEnumerable<Tin> inputCollection, Func<Tin,Tin,TInter> process, Func<List<TInter>, Tout> aggregate)
+		public static int MaxIndex<Tin>(this IEnumerable<Tin> inputCollection)
 		{
-
 			if (inputCollection.Count() < 2)
 				throw new ArgumentException();
-			var temp = new List<TInter>();
+			var temp = new List<double>();
 			for (int i = 0; i < inputCollection.Count() - 1; i++)
-				temp.Add(process(inputCollection.ElementAt(i), inputCollection.ElementAt(i)));
-			return aggregate(temp);
+				temp.Add(Process(inputCollection.ElementAt(i), inputCollection.ElementAt(i + 1)));
+			return Aggregate(temp);
 		}
 
-		public static Tuple<T,T> Pairs<T>(this IEnumerable<T> inputCollection)
+		private static double Process<Tin>(Tin source1, Tin source2)
 		{
-			throw new NotImplementedException();
+			DateTime s1 = Convert.ToDateTime(source1);
+			DateTime s2 = Convert.ToDateTime(source2);
+			return (s2 - s1).TotalSeconds;
 		}
+
+		private static int Aggregate(List<double> temp)
+		{
+			if (temp.Count == 0) throw new ArgumentException();
+			var max = temp[0];
+			var bestIndex = 0;
+			for (int i = 1; i < temp.Count; i++)
+				if (temp[i] > max)
+				{
+					max = temp[i];
+					bestIndex = i;
+				}
+			return bestIndex;
+		}
+
+
+		//public static Tuple<T,T> Pairs<T>(this IEnumerable<T> inputCollection)
+		//{
+		//	throw new NotImplementedException();
+		//}
 	}
 
 }
