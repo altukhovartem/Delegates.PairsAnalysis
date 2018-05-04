@@ -13,7 +13,7 @@ namespace Delegates.PairsAnalysis
             var sum = 0.0;
             for (int i = 0; i < temp.Count; i++)
                 sum += temp[i];
-            return sum / temp.Count;
+			return sum / temp.Count;
         }
 
         protected override double Process(double source1, double source2)
