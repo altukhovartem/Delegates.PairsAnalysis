@@ -14,12 +14,6 @@ namespace Delegates.PairsAnalysis
 			//return new MaxPauseFinder().Analyze(data);
         }
 
-        public static double FindAverageRelativeDifference(params double[] data)
-        {
-			//data.Pairs();
-			return new AverageDifferenceFinder().Analyze(data);
-        }
-
 		public static int MaxIndex<Tin>(this IEnumerable<Tin> inputCollection)
 		{
 			if (inputCollection.Count() < 2)
@@ -28,13 +22,6 @@ namespace Delegates.PairsAnalysis
 			for (int i = 0; i < inputCollection.Count() - 1; i++)
 				temp.Add(Process(inputCollection.ElementAt(i), inputCollection.ElementAt(i + 1)));
 			return Aggregate(temp);
-		}
-
-		private static double Process<Tin>(Tin source1, Tin source2)
-		{
-			DateTime s1 = Convert.ToDateTime(source1);
-			DateTime s2 = Convert.ToDateTime(source2);
-			return (s2 - s1).TotalSeconds;
 		}
 
 		private static int Aggregate(List<double> temp)
@@ -50,6 +37,24 @@ namespace Delegates.PairsAnalysis
 				}
 			return bestIndex;
 		}
+
+		private static double Process<Tin>(Tin source1, Tin source2)
+		{
+			DateTime s1 = Convert.ToDateTime(source1);
+			DateTime s2 = Convert.ToDateTime(source2);
+			return (s2 - s1).TotalSeconds;
+		}
+
+		//public static double FindAverageRelativeDifference(params double[] data)
+  //      {
+		//	//data.Pairs();
+		//	return new AverageDifferenceFinder().Analyze(data);
+  //      }
+
+		
+		
+
+		
 
 
 		//public static Tuple<T,T> Pairs<T>(this IEnumerable<T> inputCollection)
