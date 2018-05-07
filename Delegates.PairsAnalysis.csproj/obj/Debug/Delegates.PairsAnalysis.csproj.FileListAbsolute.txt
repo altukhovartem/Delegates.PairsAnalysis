@@ -7,3 +7,4 @@ C:\MyRepo\Delegates.PairsAnalysis\Delegates.PairsAnalysis.csproj\obj\Debug\Deleg
 C:\MyRepo\Delegates.PairsAnalysis\Delegates.PairsAnalysis.csproj\obj\Debug\Delegates.PairsAnalysis.csproj.CoreCompileInputs.cache
 C:\MyRepo\Delegates.PairsAnalysis\Delegates.PairsAnalysis.csproj\obj\Debug\Delegates.PairsAnalysis.exe
 C:\MyRepo\Delegates.PairsAnalysis\Delegates.PairsAnalysis.csproj\obj\Debug\Delegates.PairsAnalysis.pdb
+C:\MyRepo\Delegates.PairsAnalysis\Delegates.PairsAnalysis.csproj\obj\Debug\Delegates.PairsAnalysis.csproj.CopyComplete
