@@ -17,19 +17,19 @@ namespace Delegates.PairsAnalysis
 		public static double FindAverageRelativeDifference(params double[] data)
 		{
 			return data
-				.ToPairs<double, double>((numb1, numb2) => (numb2 - numb1) / numb1)
-				.AverageDifference<double>(
+				.ToPairs((numb1, numb2) => (numb2 - numb1) / numb1)
+				.AverageDifference(
 					(sum,nextNumb) => sum + nextNumb, 
 					(sum,count) => sum / count);
 		}
 
 		public static IEnumerable<Tout> ToPairs<Tin, Tout>(this IEnumerable<Tin> inputCollection, Func<Tin,Tin,Tout> process)
 		{
-			if (inputCollection.Count() < 2)
-				throw new ArgumentException();
 			List<Tin> inputCollectionToList = inputCollection.ToList();
+			if (inputCollectionToList.Count < 2)
+				throw new ArgumentException();
 			List<Tout> resultCollection = new List<Tout>();
-			for (int i = 0; i < inputCollection.Count() - 1; i++)
+			for (int i = 0; i < inputCollectionToList.Count - 1; i++)
 				resultCollection.Add(process(inputCollectionToList[i], inputCollectionToList[i + 1]));
 			return resultCollection;
 		}
@@ -37,14 +37,14 @@ namespace Delegates.PairsAnalysis
 		public static int MaxIndex<Tin>(this IEnumerable<Tin> inputCollection)
 			where Tin : IComparable
 		{
-			
-			if (inputCollection.Count() == 0) throw new ArgumentException();
-			var max = inputCollection.ElementAt(0);
+			List<Tin> inputCollectionToList = inputCollection.ToList();
+			if (inputCollectionToList.Count == 0) throw new ArgumentException();
+			var max = inputCollectionToList[0];
 			var bestIndex = 0;
-			for (int i = 0; i < inputCollection.Count(); i++)
-				if (inputCollection.ElementAt(i).CompareTo(max) == 1)
+			for (int i = 0; i < inputCollectionToList.Count; i++)
+				if (inputCollectionToList[i].CompareTo(max) == 1)
 				{
-					max = inputCollection.ElementAt(i);
+					max = inputCollectionToList[i];
 					bestIndex = i;
 				}
 			return bestIndex;
@@ -52,19 +52,20 @@ namespace Delegates.PairsAnalysis
 
 		public static Tin AverageDifference<Tin>(this IEnumerable<Tin> inputCollection, Func<Tin,Tin,Tin> sumup, Func<Tin,int,Tin> average)
 		{
+			List<Tin> inputCollectionToList = inputCollection.ToList();
 			Tin sum = default(Tin);
-			for (int i = 0; i < inputCollection.Count(); i++)
-				sum = sumup(sum, inputCollection.ElementAt(i));
-			return average(sum, inputCollection.Count());
+			for (int i = 0; i < inputCollectionToList.Count; i++)
+				sum = sumup(sum, inputCollectionToList[i]);
+			return average(sum, inputCollectionToList.Count);
 		}
 
 		public static IEnumerable<Tuple<T, T>> Pairs<T>(this IEnumerable<T> inputCollection)
 		{
-			if (inputCollection.Count() < 2)
-				throw new ArgumentException();
 			List<T> inputCollectionToList = inputCollection.ToList();
+			if (inputCollectionToList.Count < 2)
+				throw new ArgumentException();
 			List<Tuple<T, T>> resultCollectionOfTuples = new List<Tuple<T, T>>();
-			for (int i = 0; i < inputCollectionToList.Count()-1; i++)
+			for (int i = 0; i < inputCollectionToList.Count-1; i++)
 			{
 				Tuple<T, T> currentTuple = Tuple.Create(inputCollectionToList[i], inputCollectionToList[i + 1]);
 				resultCollectionOfTuples.Add(currentTuple);
