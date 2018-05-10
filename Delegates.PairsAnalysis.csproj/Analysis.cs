@@ -8,8 +8,8 @@ namespace Delegates.PairsAnalysis
     {
         public static int FindMaxPeriodIndex(params DateTime[] data)
         {
-			//var x = data.ToPairs((date1, date2) => (date2 - date1).TotalSeconds);
-			//var y = data.ToPairs1((date1, date2) => (date2 - date1).TotalSeconds);
+			var x = data.Pairs();
+			var y = data.ToPairs((date1, date2) => (date2 - date1).TotalSeconds);
 
 			return data
 				.ToPairs((date1, date2) => (date2 - date1).TotalSeconds)
@@ -24,56 +24,6 @@ namespace Delegates.PairsAnalysis
 					(sum,nextNumb) => sum + nextNumb, 
 					(sum,count) => sum / count);
 		}
-
-		//public static IEnumerable<Tout> ToPairs1<Tin, Tout>(this IEnumerable<Tin> inputCollection, Func<Tin, Tin, Tout> process)
-		//{
-		//	List<Tin> inputCollectionToList = inputCollection.ToList();
-		//	if (inputCollectionToList.Count < 2)
-		//		throw new ArgumentException();
-		//	List<Tout> resultCollection = new List<Tout>();
-		//	for (int i = 0; i < inputCollectionToList.Count - 1; i++)
-		//		resultCollection.Add(process(inputCollectionToList[i], inputCollectionToList[i + 1]));
-		//	return resultCollection;
-		//}
-
-		//public static int MaxIndex<Tin>(this IEnumerable<Tin> inputCollection)
-		//	where Tin : IComparable
-		//{
-		//	List<Tin> inputCollectionToList = inputCollection.ToList();
-		//	if (inputCollectionToList.Count == 0) throw new ArgumentException();
-		//	var max = inputCollectionToList[0];
-		//	var bestIndex = 0;
-		//	for (int i = 0; i < inputCollectionToList.Count; i++)
-		//		if (inputCollectionToList[i].CompareTo(max) == 1)
-		//		{
-		//			max = inputCollectionToList[i];
-		//			bestIndex = i;
-		//		}
-		//	return bestIndex;
-		//}
-
-		//public static Tin AverageDifference<Tin>(this IEnumerable<Tin> inputCollection, Func<Tin, Tin, Tin> sumup, Func<Tin, int, Tin> average)
-		//{
-		//	List<Tin> inputCollectionToList = inputCollection.ToList();
-		//	Tin sum = default(Tin);
-		//	for (int i = 0; i < inputCollectionToList.Count; i++)
-		//		sum = sumup(sum, inputCollectionToList[i]);
-		//	return average(sum, inputCollectionToList.Count);
-		//}
-
-		//public static IEnumerable<Tuple<T, T>> Pairs<T>(this IEnumerable<T> inputCollection)
-		//{
-		//	List<T> inputCollectionToList = inputCollection.ToList();
-		//	if (inputCollectionToList.Count < 2)
-		//		throw new ArgumentException();
-		//	List<Tuple<T, T>> resultCollectionOfTuples = new List<Tuple<T, T>>();
-		//	for (int i = 0; i < inputCollectionToList.Count - 1; i++)
-		//	{
-		//		Tuple<T, T> currentTuple = Tuple.Create(inputCollectionToList[i], inputCollectionToList[i + 1]);
-		//		resultCollectionOfTuples.Add(currentTuple);
-		//	}
-		//	return resultCollectionOfTuples;
-		//}
 
 		public static IEnumerable<Tout> ToPairs<Tin, Tout>(this IEnumerable<Tin> inputCollection, Func<Tin, Tin, Tout> process)
 		{
@@ -158,10 +108,12 @@ namespace Delegates.PairsAnalysis
 				if (isFirstItem)
 				{
 					previousItem = item;
+					isFirstItem = false;
 				}
 				else
 				{
 					yield return Tuple.Create(previousItem, item);
+					previousItem = item;
 					emptyCollection = false;
 				}
 			}
